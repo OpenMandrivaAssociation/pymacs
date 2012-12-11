@@ -78,3 +78,10 @@ echo "(require 'pymacs)" >> %{buildroot}%{_sysconfdir}/emacs/site-start.d/pymacs
 %doc COPYING README THANKS TODO pymacs.html
 %_sysconfdir/emacs/site-start.d/pymacs.el
 %_datadir/emacs/site-lisp/pymacs.*
+
+
+%changelog
+* Mon Mar 12 2012 Lev Givon <lev@mandriva.org> 0.24-0.beta2
++ Revision: 784429
+- imported package pymacs
+
