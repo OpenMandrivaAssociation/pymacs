@@ -1,20 +1,21 @@
 %define tarname Pymacs
 %define name pymacs
-%define version 0.24
-%define rel	beta2
-%define release 0.%rel
+%define version 0.25
+%define rel	%{nil}
+%define release 1
 
 Summary: Bidirectional communication between Emacs Lisp and Python
 Name:	 %{name}
 Version: %{version}
 Release: %{release}
-Source0: %{tarname}-%{version}-%{rel}.tar.gz
+Source0: %{tarname}-%{version}.tar.gz
 License: GPLv2+
 Group:	 Development/Python
 Url:	 http://pymacs.progiciels-bpi.ca
-BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 BuildArch: noarch
-BuildRequires:	emacs, python-devel, python-docutils
+BuildRequires:	emacs
+BuildRequires:	python2-devel
+BuildRequires:	python-docutils
 
 %description
 Pymacs is a powerful tool for bidirectional communication between
@@ -23,11 +24,12 @@ language for Emacs; using Pymacs, one may load and use Python modules
 within Emacs Lisp code. Python functions may also use Emacs services
 and handle objects in the Emacs Lisp space.
 
-%package -n python-%{name}
+%package -n python2-%{name}
 Summary: Bidirectional communication between Emacs Lisp and Python
 Group:	 Development/Python
+%rename python-%{name}
 
-%description -n python-%{name}
+%description -n python2-%{name}
 Pymacs is a powerful tool for bidirectional communication between
 Emacs Lisp and Python. Pymacs aims to provide Python as an extension
 language for Emacs; using Pymacs, one may load and use Python modules
@@ -51,14 +53,15 @@ and handle objects in the Emacs Lisp space.
 This package contains the Emacs portion of Pymacs.
 
 %prep
-%setup -q -n %{tarname}-%{version}-%{rel}
+%setup -q -n %{tarname}-%{version}
 
 %build
-%__make all
+
+%__make all PYTHON=%__python2
 
 %install
 %__rm -rf %{buildroot}
-PYTHONDONTWRITEBYTECODE= %__python setup.py install --root=%{buildroot}
+PYTHONDONTWRITEBYTECODE= %__python2 setup.py install --root=%{buildroot}
 rst2html --input-encoding=UTF-8 pymacs.rst pymacs.html
 %__install -d -m 755 %{buildroot}%{_datadir}/emacs/site-lisp/
 emacs -batch --eval '(byte-compile-file "pymacs.el" t)'
@@ -69,19 +72,11 @@ echo "(require 'pymacs)" >> %{buildroot}%{_sysconfdir}/emacs/site-start.d/pymacs
 %clean
 %__rm -rf %{buildroot}
 
-%files -n python-%{name} 
-%defattr(-,root,root)
-%py_sitedir/Pymacs*
+%files -n python2-%{name} 
+%py2_puresitedir/Pymacs*
 
 %files -n emacs-%{name}
-%defattr(-,root,root)
 %doc COPYING README THANKS TODO pymacs.html
 %_sysconfdir/emacs/site-start.d/pymacs.el
 %_datadir/emacs/site-lisp/pymacs.*
-
-
-%changelog
-* Mon Mar 12 2012 Lev Givon <lev@mandriva.org> 0.24-0.beta2
-+ Revision: 784429
-- imported package pymacs
 
