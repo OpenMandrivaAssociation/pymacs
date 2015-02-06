@@ -2,7 +2,7 @@
 %define name pymacs
 %define version 0.25
 %define rel	%{nil}
-%define release 1
+%define release 2
 
 Summary: Bidirectional communication between Emacs Lisp and Python
 Name:	 %{name}
