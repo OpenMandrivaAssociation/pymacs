@@ -11,7 +11,7 @@ Release: %{release}
 Source0: %{tarname}-%{version}.tar.gz
 License: GPLv2+
 Group:	 Development/Python
-Url:	 http://pymacs.progiciels-bpi.ca
+Url:	 https://pymacs.progiciels-bpi.ca
 BuildArch: noarch
 BuildRequires:	emacs
 BuildRequires:	python2-devel
